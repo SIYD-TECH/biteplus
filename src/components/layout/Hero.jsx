@@ -7,9 +7,6 @@ export default function Hero() {
       <div className="container mx-auto px-6 lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10 max-w-screen-2xl">
         {/* Left Content Column */}
         <div className="order-2 lg:order-1 flex flex-col items-start animate-in fade-in slide-in-from-left-8 duration-700">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-orange-100 text-orange-700 text-xs font-bold tracking-wide uppercase mb-6">
-            🔥 Oyo & Osun's Number One
-          </span>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-6 tracking-tight leading-none">
             Fresh. Fast. Delicious. <br />
