@@ -129,11 +129,9 @@ export default function Admin() {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-sm font-black tracking-tight text-[#1E1E1E]">
-                BITE PLUS HQ
+                ADMIN
               </h1>
-              <span className="bg-gradient-to-r from-[#D8232A] to-[#FF5E14] text-white font-mono text-[9px] font-black px-2 py-0.5 rounded-full tracking-wider">
-                ADMIN CORE
-              </span>
+              
             </div>
           </div>
         </div>
@@ -245,12 +243,6 @@ export default function Admin() {
             {/* DYNAMIC PIPELINE CARDS STREAM */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <Layers size={14} className="text-gray-400" />
-                  <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
-                    Operational Pipeline Stream
-                  </h2>
-                </div>
                 <span className="text-[11px] font-bold text-gray-400">
                   {filteredOrders.length} Calculated Items
                 </span>
@@ -341,7 +333,7 @@ export default function Admin() {
                               className="w-full md:w-auto inline-flex items-center justify-center gap-1.5 bg-gray-900 hover:bg-[#D8232A] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-sm cursor-pointer"
                             >
                               <ChefHat size={13} />
-                              Cook Ticket
+                              Approve order
                             </button>
                           )}
                           {order.status === "Cooking" && (
@@ -352,7 +344,7 @@ export default function Admin() {
                               className="w-full md:w-auto inline-flex items-center justify-center gap-1.5 bg-[#D8232A] hover:bg-[#b01d22] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-sm cursor-pointer"
                             >
                               <Check size={13} />
-                              Dispatch
+                              Finalize Order
                             </button>
                           )}
                           {order.status === "Completed" && (
