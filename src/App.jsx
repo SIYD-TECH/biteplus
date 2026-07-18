@@ -6,6 +6,7 @@ import Landing from "./pages/Landing";
 import Menu from "./pages/Menu";
 import Checkout from "./pages/Checkout";
 import Admin from "./pages/Admin";
+import ScrollToTop from "./components/ScrollToTop";
 // import AdminPage from "./pages/AdminPage"; // Ready whenever you drop it in
 
 export default function App() {
@@ -68,6 +69,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F9F9F9] text-[#1E1E1E] font-sans antialiased">
       {/* Pass the dynamic item count directly to your existing Navbar */}
+      <ScrollToTop/>
       <Navbar cartCount={totalCartItems} />
 
       <Routes>
