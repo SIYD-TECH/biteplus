@@ -17,9 +17,7 @@ export default function Menu({
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("All");
 
-  // Lazy initializers so we read localStorage synchronously on first render —
-  // this avoids a flash of the "select your location" modal on every reload
-  // if a location was already saved from a previous visit.
+  
   const [tempLocation, setTempLocation] = useState(
     () =>
       selectedLocation ||
