@@ -324,29 +324,7 @@ export default function Checkout({
                     required
                     value={formData.fullName}
                     onChange={handleInputChange}
-                    placeholder="e.g. Tunde Oladele"
-                    className="w-full pl-11 pr-4 py-3 bg-[#F9F9F9] border border-gray-200 rounded-xl focus:outline-none focus:border-[#FF5E14] focus:bg-white text-sm font-medium transition-all"
-                  />
-                </div>
-              </div>
-
-              {/* INPUT field 2: Address / Hostel Location */}
-              <div>
-                <label className="block text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">
-                  Delivery Address / Hostel
-                </label>
-                <div className="relative">
-                  <MapPin
-                    size={16}
-                    className="absolute left-4 top-3.5 text-gray-400"
-                  />
-                  <input
-                    type="text"
-                    name="address"
-                    required
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    placeholder="e.g. Hall 4, Room 302 or 12 Marina Dr."
+                    placeholder="Tunde Oladele"
                     className="w-full pl-11 pr-4 py-3 bg-[#F9F9F9] border border-gray-200 rounded-xl focus:outline-none focus:border-[#FF5E14] focus:bg-white text-sm font-medium transition-all"
                   />
                 </div>
@@ -368,7 +346,7 @@ export default function Checkout({
                     required
                     value={formData.phone}
                     onChange={handleInputChange}
-                    placeholder="e.g. 0801 234 5678"
+                    placeholder="0801 234 5678"
                     className="w-full pl-11 pr-4 py-3 bg-[#F9F9F9] border border-gray-200 rounded-xl focus:outline-none focus:border-[#FF5E14] focus:bg-white text-sm font-medium transition-all"
                   />
                 </div>
@@ -389,7 +367,7 @@ export default function Checkout({
                     rows="3"
                     value={formData.specialInstructions}
                     onChange={handleInputChange}
-                    placeholder="e.g. Knock twice, don't call."
+                    placeholder="Anything you want us to note?"
                     className="w-full pl-11 pr-4 py-3 bg-[#F9F9F9] border border-gray-200 rounded-xl focus:outline-none focus:border-[#FF5E14] focus:bg-white text-sm font-medium transition-all resize-none"
                   />
                 </div>
