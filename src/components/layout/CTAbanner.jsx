@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function CTAbanner({ onNavigate }) {
   return (
@@ -26,16 +27,19 @@ export default function CTAbanner({ onNavigate }) {
             </p>
 
             {/* Main Action Button to switch views */}
-            <button
-              onClick={() => onNavigate("menu")}
-              className="inline-flex items-center gap-2 bg-white text-[#D8232A] hover:bg-neutral-50 active:scale-95 text-base font-extrabold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 group/btn"
+            <Link to="/menu">
+             <button
+              
+              className="inline-flex cursor-pointer items-center gap-2 bg-white text-[#D8232A] hover:bg-neutral-50 active:scale-95 text-base font-extrabold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 group/btn"
             >
-              Order Online Now 😋
+              Order Online Now 
               <ArrowRight
                 size={18}
                 className="text-[#FF5E14] group-hover/btn:translate-x-1 transition-transform"
               />
             </button>
+            </Link>
+           
           </div>
         </div>
       </div>
