@@ -16,7 +16,7 @@ import {
 export default function Checkout({
   cart = [],
   onUpdateQty = () => {},
-  selectedLocation = "Ogbomoso (UnderG)",
+  selectedLocation = "Ogbomoso",
   onOrderPlaced = () => {},
 }) {
   // Form input states
@@ -28,7 +28,7 @@ export default function Checkout({
   });
 
   // Mobile order summary accordion state
-  const [isSummaryOpen, setIsSummaryOpen] = useState(false);
+  const [isSummaryOpen, setIsSummaryOpen] = useState(true);
 
   // Price calculations
   const subtotal = cart.reduce(
@@ -86,7 +86,7 @@ export default function Checkout({
       fullName: formData.fullName,
       phone: formData.phone,
       address: formData.address,
-      branch: selectedLocation || "Ogbomoso (UnderG)",
+      branch: selectedLocation || "Ogbomoso",
       // Formats the items layout to perfectly match your Admin dashboard rows
       itemsText: cart
         .map(
@@ -139,7 +139,7 @@ export default function Checkout({
 
   return (
     <div className="min-h-screen bg-[#F9F9F9] text-[#1E1E1E] antialiased pt-16">
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-100 px-4 py-3.5 shadow-sm flex items-center justify-between">
+      <header className="sticky top-0 z-30 bg-white border-b border-gray-100 px-4 py-3.5 shadow-sm flex items-center justify-between">
         <Link
           to="/menu"
           className="flex items-center gap-1.5 text-sm font-bold text-gray-600 hover:text-[#D8232A] transition-colors"

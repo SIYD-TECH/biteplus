@@ -28,7 +28,7 @@ export default function Navbar({ cartCount = 0 }) {
           >
             <img
               alt="Bite Plus Logo"
-              className="h-9 sm:h-10 w-auto object-contain"
+              className="h-30 sm:h-[120px] w-auto object-contain"
               src="logo.png"
             />
           </Link>
@@ -71,11 +71,10 @@ export default function Navbar({ cartCount = 0 }) {
             {/* Quick Order Action Button (Desktop Only) */}
             <Link to="/menu" className="hidden sm:block">
               <button className="bg-gradient-to-r from-[#D8232A] to-[#FF5E14] text-white font-extrabold text-xs px-5 py-2.5 rounded-xl shadow-sm hover:opacity-95 active:scale-95 transition-all cursor-pointer">
-                Order Now 🍔
+                Order Now 
               </button>
             </Link>
 
-            {/* 📱 MOBILE HAMBURGER TOGGLE BUTTON */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2.5 bg-gray-50 hover:bg-gray-100 border border-gray-100 rounded-xl text-gray-700 hover:text-[#D8232A] transition-all cursor-pointer focus:outline-none"
@@ -86,9 +85,7 @@ export default function Navbar({ cartCount = 0 }) {
         </nav>
       </header>
 
-      {/* ========================================================================= */}
-      {/* 🚀 MOBILE SIDEBAR DRAWER INTERFACE PANEL OVERLAY */}
-      {/* ========================================================================= */}
+      
       <div
         className={`fixed inset-0 z-40 transition-all duration-300 md:hidden ${
           isMobileMenuOpen
@@ -109,9 +106,6 @@ export default function Navbar({ cartCount = 0 }) {
           }`}
         >
           <div className="pt-16 space-y-6">
-            <p className="text-[10px] text-gray-400 font-black tracking-widest uppercase border-b border-gray-50 pb-2">
-              Navigation Menu
-            </p>
 
             {/* Navigation Routes List Container */}
             <div className="flex flex-col gap-2">
@@ -141,7 +135,6 @@ export default function Navbar({ cartCount = 0 }) {
                 <span>Our Menu</span>
               </Link>
 
-              {/* Optional Admin Entry directly linked to testing workflows */}
               <Link
                 to="/admin"
                 onClick={() => setIsMobileMenuOpen(false)}

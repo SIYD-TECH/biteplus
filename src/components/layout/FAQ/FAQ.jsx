@@ -5,7 +5,7 @@ const faqData = [
   {
     question: "How long does delivery take?",
     answer:
-      "For locations around campus and major hubs (like UnderG in Ogbomoso), delivery typically takes between 15 to 30 minutes. Our dispatch riders move fast to ensure your food arrives piping hot!",
+      "For locations around campus and major hubs (like in Ogbomoso), delivery typically takes between 15 to 30 minutes. Our dispatch riders move fast to ensure your food arrives piping hot!",
   },
   {
     question: "Can I pay with mobile bank transfer?",

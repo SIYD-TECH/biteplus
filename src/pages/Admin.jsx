@@ -19,7 +19,7 @@ const baselineMockOrders = [
     fullName: "Adebayo Rasaq",
     phone: "08145678901",
     address: "New Hostel, Block C, Room 12",
-    branch: "Ogbomoso (UnderG)",
+    branch: "Ogbomoso",
     itemsText:
       "• 2x Bite Plus Jollof Feast (₦7,600)\n• 1x Chilled Coca-Cola (Pet) (₦600)",
     subtotal: 8200,
@@ -33,7 +33,7 @@ const baselineMockOrders = [
 
 const BRANCHES = [
   "All",
-  "Ogbomoso (UnderG)",
+  "Ogbomoso",
   "Ibadan (Bodija)",
   "Osogbo (Olaiya)",
 ];
