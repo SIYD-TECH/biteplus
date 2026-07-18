@@ -48,7 +48,7 @@ export default function Checkout({
   const handlePlaceOrder = (e) => {
     e.preventDefault();
     if (cart.length === 0) return alert("Your cart is empty!");
-    if (!formData.fullName || !formData.address || !formData.phone) {
+    if (!formData.fullName || !formData.phone) {
       return alert("Please fill in all required delivery details.");
     }
 
@@ -83,7 +83,6 @@ export default function Checkout({
       id: `BP-${Math.floor(1000 + Math.random() * 9000)}`, 
       fullName: formData.fullName,
       phone: formData.phone,
-      address: formData.address,
       branch: selectedLocation || "Ogbomoso",
       // Formats the items layout to perfectly match your Admin dashboard rows
       itemsText: cart
