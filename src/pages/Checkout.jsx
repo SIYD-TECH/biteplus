@@ -115,9 +115,7 @@ export default function Checkout({
     } catch (error) {
       console.error("Failed to sync order log to LocalStorage:", error);
     }
-    // =========================================================================
-
-    // Target WhatsApp business registry number
+   
     const whatsappNumber = "2349019116721";
     const encodedUri = encodeURIComponent(textMessage);
 
