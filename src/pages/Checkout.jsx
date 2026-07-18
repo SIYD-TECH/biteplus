@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   ArrowLeft,
   User,
@@ -13,10 +14,10 @@ import {
 } from "lucide-react";
 
 export default function Checkout({
-  onNavigate = () => {},
   cart = [],
   onUpdateQty = () => {},
   selectedLocation = "Ogbomoso (UnderG)",
+  onOrderPlaced = () => {},
 }) {
   // Form input states
   const [formData, setFormData] = useState({
@@ -77,24 +78,27 @@ export default function Checkout({
       `----------------------------------\n` +
       `${formData.specialInstructions ? `📝 *Special Instructions:* ${formData.specialInstructions}` : ""}`;
 
-    // Target WhatsApp business registry number (replace with CEO's specific endpoint line)
+    // Target WhatsApp business registry number
     const whatsappNumber = "2348012345678";
     const encodedUri = encodeURIComponent(textMessage);
 
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedUri}`, "_blank");
+
+    // Clear the cart state after order dispatch action triggers
+    onOrderPlaced();
   };
 
   return (
-    <div className="min-h-screen bg-[#F9F9F9] text-[#1E1E1E] antialiased">
+    <div className="min-h-screen bg-[#F9F9F9] text-[#1E1E1E] antialiased pt-16">
       {/* 💳 GLOBAL COMPONENT HEADER */}
       <header className="sticky top-0 z-40 bg-white border-b border-gray-100 px-4 py-3.5 shadow-sm flex items-center justify-between">
-        <button
-          onClick={() => onNavigate("menu")}
+        <Link
+          to="/menu"
           className="flex items-center gap-1.5 text-sm font-bold text-gray-600 hover:text-[#D8232A] transition-colors"
         >
           <ArrowLeft size={18} />
           <span className="hidden sm:inline">Back to Menu</span>
-        </button>
+        </Link>
         <span className="text-lg font-black text-[#D8232A] tracking-tight">
           Cart
         </span>
@@ -108,7 +112,7 @@ export default function Checkout({
         <div className="md:hidden mb-4">
           <button
             onClick={() => setIsSummaryOpen(!isSummaryOpen)}
-            className="w-full bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex items-center justify-between"
+            className="w-full bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex items-center justify-between cursor-pointer"
           >
             <div>
               <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">
@@ -126,7 +130,7 @@ export default function Checkout({
           </button>
 
           {isSummaryOpen && (
-            <div className="bg-white border-x border-b border-gray-100 rounded-b-2xl p-4 shadow-inner -mt-2 space-y-4 animate-fade-in">
+            <div className="bg-white border-x border-b border-gray-100 rounded-b-2xl p-4 shadow-inner -mt-2 space-y-4">
               {cart.map((item) => (
                 <div
                   key={item.id}
@@ -168,7 +172,7 @@ export default function Checkout({
 
         {/* 🏢 DESKTOP LAYOUT AND CORE WEB SHELL */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-          {/* LEFT COLUMN: ITEMIZED BREAKDOWN LIST (Hidden on mobile if summary is packed away) */}
+          {/* LEFT COLUMN: ITEMIZED BREAKDOWN LIST */}
           <div className="hidden md:block md:col-span-5 bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
             <h3 className="text-xl font-black tracking-tight mb-6 text-gray-800">
               Your Tasty Order
@@ -202,7 +206,7 @@ export default function Checkout({
                         <div className="flex items-center bg-white border border-gray-100 rounded-lg p-0.5">
                           <button
                             onClick={() => onUpdateQty(item.id, -1)}
-                            className="p-1 text-gray-500 hover:text-[#D8232A]"
+                            className="p-1 text-gray-500 hover:text-[#D8232A] cursor-pointer"
                           >
                             <Minus size={12} />
                           </button>
@@ -211,7 +215,7 @@ export default function Checkout({
                           </span>
                           <button
                             onClick={() => onUpdateQty(item.id, 1)}
-                            className="p-1 text-gray-500 hover:text-[#FF5E14]"
+                            className="p-1 text-gray-500 hover:text-[#FF5E14] cursor-pointer"
                           >
                             <Plus size={12} />
                           </button>
@@ -352,7 +356,7 @@ export default function Checkout({
                 <button
                   type="submit"
                   disabled={cart.length === 0}
-                  className="w-full bg-[#128C7E] hover:bg-[#075E54] disabled:bg-gray-300 text-white font-black py-4 rounded-xl shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99]"
+                  className="w-full bg-[#128C7E] hover:bg-[#075E54] disabled:bg-gray-300 text-white font-black py-4 rounded-xl shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
                 >
                   <MessageSquare size={18} fill="currentColor" />
                   Place Order via WhatsApp

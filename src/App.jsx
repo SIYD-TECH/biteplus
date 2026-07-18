@@ -5,6 +5,7 @@ import "./index.css";
 import Landing from "./pages/Landing";
 import Menu from "./pages/Menu";
 import Checkout from "./pages/Checkout";
+import Admin from "./pages/Admin";
 // import AdminPage from "./pages/AdminPage"; // Ready whenever you drop it in
 
 export default function App() {
@@ -98,6 +99,8 @@ export default function App() {
             />
           }
         />
+
+        <Route path="/admin" element={<Admin />} />
 
         {/* <Route path="/admin" element={<AdminPage />} /> */}
       </Routes>

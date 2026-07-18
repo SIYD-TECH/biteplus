@@ -1,20 +1,18 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, MapPin, ArrowLeft, Plus, Minus } from "lucide-react";
-
-// Realistic fast-food menu array matching the Bite Plus style
-
 
 const branches = ["Ogbomoso (UnderG)", "Ibadan (Bodija)", "Osogbo (Olaiya)"];
 const categories = ["All", "Meals", "Sides", "Drinks"];
 
 export default function Menu({
-  onNavigate = () => {},
   selectedLocation = "",
   setSelectedLocation = () => {},
-  cart = [], // Injected default array to prevent crash if undefined
+  cart = [],
   onAddToCart = () => {},
   onUpdateQty = () => {},
 }) {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("All");
   const [showLocationModal, setShowLocationModal] = useState(!selectedLocation);
   const [tempLocation, setTempLocation] = useState(
@@ -167,11 +165,10 @@ export default function Menu({
       ? menuItems
       : menuItems.filter((item) => item.category === activeCategory);
 
-  // Fully restored cart counter calculation
   const totalCartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-[#F9F9F9] pb-24">
+    <div className="min-h-screen bg-[#F9F9F9] pt-16 pb-24">
       {/* 📍 LOCATION MODAL OVERLAY */}
       {showLocationModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
@@ -201,7 +198,7 @@ export default function Menu({
 
             <button
               onClick={handleConfirmLocation}
-              className="w-full mt-6 bg-gradient-to-r from-[#D8232A] to-[#FF5E14] text-white font-extrabold py-3.5 rounded-xl shadow-md hover:opacity-95 active:scale-[0.99] transition-all"
+              className="w-full mt-6 bg-gradient-to-r from-[#D8232A] to-[#FF5E14] text-white font-extrabold py-3.5 rounded-xl shadow-md hover:opacity-95 active:scale-[0.99] transition-all cursor-pointer"
             >
               Confirm Location
             </button>
@@ -209,46 +206,27 @@ export default function Menu({
         </div>
       )}
 
-      {/* 🗺️ STICKY APP HEADER */}
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-100 px-4 py-3 shadow-sm flex items-center justify-between">
-        <button
-          onClick={() => onNavigate("landing")}
-          className="p-2 text-gray-500 hover:text-[#1E1E1E] transition-colors"
-        >
-          <ArrowLeft size={20} />
-        </button>
-
+      {/* 🗺️ SUB-HEADER CONTROL ACTIONS */}
+      <div className="bg-white border-b border-gray-100 sticky top-16 z-40 py-3 px-4 flex items-center justify-between shadow-sm">
         <button
           onClick={() => setShowLocationModal(true)}
-          className="flex items-center gap-1.5 px-4 py-1.5 bg-gray-50 hover:bg-gray-100 border border-gray-200/60 rounded-full text-xs font-bold text-gray-700 transition-all"
+          className="flex items-center gap-1.5 px-4 py-1.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-full text-xs font-bold text-gray-700 transition-all cursor-pointer"
         >
           <MapPin size={14} className="text-[#FF5E14]" />
           {selectedLocation || "Select Location"}
         </button>
-
-        <button
-          onClick={() => onNavigate("cart")}
-          className="relative p-2.5 bg-gray-50 hover:bg-gray-100 rounded-xl transition-all group"
-        >
-          <ShoppingCart
-            size={20}
-            className="text-gray-700 group-hover:text-[#D8232A]"
-          />
-          {totalCartItems > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 bg-[#D8232A] text-white text-xs font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-pulse">
-              {totalCartItems}
-            </span>
-          )}
-        </button>
-      </header>
+        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider hidden sm:inline">
+          Fresh & Fast Execution ⚡
+        </span>
+      </div>
 
       {/* 💊 CATEGORY SWIPE BAR */}
-      <div className="bg-white border-b border-gray-100 sticky top-[57px] z-30 py-3 px-4 overflow-x-auto no-scrollbar flex gap-2.5 shadow-sm">
+      <div className="bg-white border-b border-gray-100 sticky top-[117px] z-30 py-3 px-4 overflow-x-auto no-scrollbar flex gap-2.5 shadow-sm">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setActiveCategory(cat)}
-            className={`px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
+            className={`px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
               activeCategory === cat
                 ? "bg-[#D8232A] text-white shadow-md shadow-red-600/10"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -260,7 +238,6 @@ export default function Menu({
       </div>
 
       {/* 🍔 DYNAMIC PRODUCT GRID */}
-      {/* 🍔 DYNAMIC COMPACT PRODUCT GRID */}
       <main className="max-w-6xl mx-auto px-4 mt-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {filteredItems.map((item) => {
@@ -270,27 +247,23 @@ export default function Menu({
                 key={item.id}
                 className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-row sm:flex-col h-36 sm:h-auto group hover:shadow-md transition-shadow"
               >
-                {/* IMAGE BLOCK: Scaled small on mobile row, full block on desktop */}
                 <div className="w-32 sm:w-full h-full sm:h-48 flex-shrink-0 overflow-hidden relative bg-gray-50">
                   <img
                     src={item.image}
                     alt={item.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  {/* Desktop badge position */}
                   <span className="hidden sm:inline-block absolute top-3 right-3 bg-white/95 backdrop-blur-sm text-[#1E1E1E] font-black text-sm px-3 py-1 rounded-full border border-gray-100 shadow-sm">
                     ₦{item.price.toLocaleString()}
                   </span>
                 </div>
 
-                {/* CARD INFO SHELL */}
                 <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between min-w-0">
                   <div className="min-w-0">
                     <div className="flex items-start justify-between gap-1">
                       <h4 className="font-extrabold text-sm sm:text-base text-[#1E1E1E] tracking-tight truncate sm:whitespace-normal">
                         {item.name}
                       </h4>
-                      {/* Mobile pricing label displays directly adjacent to heading */}
                       <span className="sm:hidden font-black text-sm text-[#D8232A] whitespace-nowrap">
                         ₦{item.price.toLocaleString()}
                       </span>
@@ -300,7 +273,6 @@ export default function Menu({
                     </p>
                   </div>
 
-                  {/* ACTION BUTTON WRAPPER */}
                   <div className="mt-2 sm:mt-5 pt-2 sm:pt-4 border-t border-gray-50">
                     {cartItem ? (
                       <div className="flex items-center justify-between bg-gray-50 rounded-xl p-0.5 sm:p-1 border border-gray-100 max-w-[140px] sm:max-w-none">
@@ -336,11 +308,11 @@ export default function Menu({
         </div>
       </main>
 
-      {/* 🚀 PERSISTENT MOBILE FLOATING BOTTOM ACTION BUTTON */}
+      {/* 🚀 PERSISTENT MOBILE FLOATING BOTTOM ACTION LINK */}
       {totalCartItems > 0 && (
         <div className="fixed bottom-4 left-4 right-4 z-40 max-w-md mx-auto sm:hidden">
-          <button
-            onClick={() => onNavigate("cart")}
+          <Link
+            to="/cart"
             className="w-full bg-gradient-to-r from-[#D8232A] to-[#FF5E14] text-white p-4 rounded-xl font-extrabold flex items-center justify-between shadow-lg shadow-orange-600/20 active:scale-[0.98] transition-transform"
           >
             <span className="text-xs tracking-wide uppercase bg-white/20 px-2.5 py-1 rounded-md">
@@ -348,7 +320,7 @@ export default function Menu({
             </span>
             <span className="text-sm">View Your Order</span>
             <ShoppingCart size={18} />
-          </button>
+          </Link>
         </div>
       )}
     </div>
