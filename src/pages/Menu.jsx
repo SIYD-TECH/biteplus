@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, MapPin, ArrowLeft, Plus, Minus } from "lucide-react";
 
-const branches = ["Ogbomoso (UnderG)", "Ibadan (Bodija)", "Osogbo (Olaiya)"];
+const branches = ["Ogbomoso", "Ibadan (Bodija)", "Osogbo (Olaiya)"];
 const categories = ["All", "Meals", "Sides", "Drinks"];
 
 const LOCATION_STORAGE_KEY = "biteplus_selected_location";
@@ -32,9 +32,7 @@ export default function Menu({
     return !saved;
   });
 
-  // If the parent's `selectedLocation` state hasn't been hydrated yet but we
-  // do have a saved location, push it up so the rest of the app (cart,
-  // checkout, etc.) knows about it too — not just this page.
+ 
   useEffect(() => {
     const saved = localStorage.getItem(LOCATION_STORAGE_KEY);
     if (saved && !selectedLocation) {
@@ -194,7 +192,6 @@ export default function Menu({
 
   return (
     <div className="min-h-screen bg-[#F9F9F9] pt-16 pb-24">
-      {/* 📍 LOCATION MODAL OVERLAY */}
       {showLocationModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl border border-gray-100 text-center">
@@ -232,17 +229,14 @@ export default function Menu({
       )}
 
       {/* 🗺️ SUB-HEADER CONTROL ACTIONS */}
-      <div className="bg-white border-b border-gray-100 sticky top-16 z-40 py-3 px-4 flex items-center justify-between shadow-sm">
-        <button
-          onClick={() => setShowLocationModal(true)}
-          className="flex items-center gap-1.5 px-4 py-1.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-full text-xs font-bold text-gray-700 transition-all cursor-pointer"
-        >
+      <div
+        onClick={() => setShowLocationModal(true)}
+        className="bg-white border-b border-gray-100 sticky top-16 z-30 py-5 px-4 flex items-center justify-between shadow-sm"
+      >
+        <button className="flex items-center gap-1.5 px-4 py-1.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-full text-xs font-bold text-gray-700 transition-all cursor-pointer">
           <MapPin size={14} className="text-[#FF5E14]" />
           {selectedLocation || "Select Location"}
         </button>
-        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider hidden sm:inline">
-          Fresh & Fast Execution ⚡
-        </span>
       </div>
 
       {/* 💊 CATEGORY SWIPE BAR */}
