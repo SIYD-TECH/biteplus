@@ -145,7 +145,7 @@ export default function Navbar({ cartCount = 0 }) {
                 }`}
               >
                 <ShieldCheck size={18} />
-                <span>Kitchen Console</span>
+                <span>Admin dashboard</span>
               </Link>
             </div>
           </div>
