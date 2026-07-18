@@ -78,6 +78,47 @@ export default function Checkout({
       `----------------------------------\n` +
       `${formData.specialInstructions ? `📝 *Special Instructions:* ${formData.specialInstructions}` : ""}`;
 
+    // =========================================================================
+    // 📦 NEW CODE added here: LOG TO LOCAL STORAGE DATABASE FOR THE ADMIN PANEL
+    // =========================================================================
+    const newOrderRecord = {
+      id: `BP-${Math.floor(1000 + Math.random() * 9000)}`, // Unique demo ticket identifier
+      fullName: formData.fullName,
+      phone: formData.phone,
+      address: formData.address,
+      branch: selectedLocation || "Ogbomoso (UnderG)",
+      // Formats the items layout to perfectly match your Admin dashboard rows
+      itemsText: cart
+        .map(
+          (item) =>
+            `${item.quantity}x ${item.name} — ₦${(item.price * item.quantity).toLocaleString()}`,
+        )
+        .join("\n"),
+      subtotal: subtotal,
+      deliveryFee: deliveryFee,
+      totalAmount: totalAmount,
+      specialInstructions: formData.specialInstructions,
+      status: "Pending",
+      timestamp: "Just now",
+    };
+
+    try {
+      // 1. Read existing admin orders array from disk
+      const currentActiveHistory = JSON.parse(
+        localStorage.getItem("biteplus_orders") || "[]",
+      );
+      // 2. Add the new record right at the very front of the list
+      currentActiveHistory.unshift(newOrderRecord);
+      // 3. Save it back to the global browser storage memory registry
+      localStorage.setItem(
+        "biteplus_orders",
+        JSON.stringify(currentActiveHistory),
+      );
+    } catch (error) {
+      console.error("Failed to sync order log to LocalStorage:", error);
+    }
+    // =========================================================================
+
     // Target WhatsApp business registry number
     const whatsappNumber = "2348012345678";
     const encodedUri = encodeURIComponent(textMessage);
@@ -86,11 +127,18 @@ export default function Checkout({
 
     // Clear the cart state after order dispatch action triggers
     onOrderPlaced();
+
+    // Flush text input fields clean
+    setFormData({
+      fullName: "",
+      address: "",
+      phone: "",
+      specialInstructions: "",
+    });
   };
 
   return (
     <div className="min-h-screen bg-[#F9F9F9] text-[#1E1E1E] antialiased pt-16">
-      {/* 💳 GLOBAL COMPONENT HEADER */}
       <header className="sticky top-0 z-40 bg-white border-b border-gray-100 px-4 py-3.5 shadow-sm flex items-center justify-between">
         <Link
           to="/menu"

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, MapPin, ArrowLeft, Plus, Minus } from "lucide-react";
 
 const branches = ["Ogbomoso (UnderG)", "Ibadan (Bodija)", "Osogbo (Olaiya)"];
 const categories = ["All", "Meals", "Sides", "Drinks"];
+
+const LOCATION_STORAGE_KEY = "biteplus_selected_location";
 
 export default function Menu({
   selectedLocation = "",
@@ -14,13 +16,36 @@ export default function Menu({
 }) {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("All");
-  const [showLocationModal, setShowLocationModal] = useState(!selectedLocation);
+
+  // Lazy initializers so we read localStorage synchronously on first render —
+  // this avoids a flash of the "select your location" modal on every reload
+  // if a location was already saved from a previous visit.
   const [tempLocation, setTempLocation] = useState(
-    selectedLocation || branches[0],
+    () =>
+      selectedLocation ||
+      localStorage.getItem(LOCATION_STORAGE_KEY) ||
+      branches[0],
   );
+  const [showLocationModal, setShowLocationModal] = useState(() => {
+    const saved =
+      selectedLocation || localStorage.getItem(LOCATION_STORAGE_KEY);
+    return !saved;
+  });
+
+  // If the parent's `selectedLocation` state hasn't been hydrated yet but we
+  // do have a saved location, push it up so the rest of the app (cart,
+  // checkout, etc.) knows about it too — not just this page.
+  useEffect(() => {
+    const saved = localStorage.getItem(LOCATION_STORAGE_KEY);
+    if (saved && !selectedLocation) {
+      setSelectedLocation(saved);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleConfirmLocation = () => {
     setSelectedLocation(tempLocation);
+    localStorage.setItem(LOCATION_STORAGE_KEY, tempLocation);
     setShowLocationModal(false);
   };
 
