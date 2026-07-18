@@ -306,7 +306,7 @@ export default function Menu({
                       <div className="flex items-center justify-between bg-gray-50 rounded-xl p-0.5 sm:p-1 border border-gray-100 max-w-[140px] sm:max-w-none">
                         <button
                           onClick={() => onUpdateQty(item.id, -1)}
-                          className="w-7 h-7 sm:w-9 sm:h-9 rounded-lg bg-white shadow-sm flex items-center justify-center text-gray-600 hover:text-[#D8232A]"
+                          className="w-7 h-7 sm:w-9 sm:h-9 rounded-lg bg-white shadow-sm flex items-center justify-center text-gray-600 hover:text-[#D8232A] cursor-pointer"
                         >
                           <Minus size={14} />
                         </button>
@@ -315,7 +315,7 @@ export default function Menu({
                         </span>
                         <button
                           onClick={() => onAddToCart(item)}
-                          className="w-7 h-7 sm:w-9 sm:h-9 rounded-lg bg-white shadow-sm flex items-center justify-center text-gray-600 hover:text-[#FF5E14]"
+                          className="w-7 h-7 sm:w-9 sm:h-9 rounded-lg bg-white shadow-sm flex items-center justify-center text-gray-600 hover:text-[#FF5E14] cursor-pointer"
                         >
                           <Plus size={14} />
                         </button>
@@ -323,7 +323,7 @@ export default function Menu({
                     ) : (
                       <button
                         onClick={() => onAddToCart(item)}
-                        className="w-full bg-gray-900 hover:bg-[#D8232A] text-white font-bold text-[11px] sm:text-xs py-2 sm:py-3 rounded-xl transition-colors shadow-sm"
+                        className="w-full bg-gray-900 hover:bg-[#D8232A] text-white font-bold text-[11px] sm:text-xs py-2 sm:py-3 rounded-xl transition-colors shadow-sm cursor-pointer"
                       >
                         Add to Order
                       </button>
