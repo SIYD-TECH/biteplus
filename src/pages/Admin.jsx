@@ -8,10 +8,12 @@ import {
   RotateCcw,
   ChefHat,
   Check,
+  Layers,
+  Search,
+  Filter,
 } from "lucide-react";
 
-// Baseline mock dataset to seed the UI cleanly if local history is fresh
-const defaultMockOrders = [
+const baselineMockOrders = [
   {
     id: "BP-9081",
     fullName: "Adebayo Rasaq",
@@ -19,7 +21,7 @@ const defaultMockOrders = [
     address: "New Hostel, Block C, Room 12",
     branch: "Ogbomoso (UnderG)",
     itemsText:
-      "2x Bite Plus Jollof Feast — ₦7,600\n1x Chilled Coca-Cola (Pet) — ₦600",
+      "• 2x Bite Plus Jollof Feast (₦7,600)\n• 1x Chilled Coca-Cola (Pet) (₦600)",
     subtotal: 8200,
     deliveryFee: 700,
     totalAmount: 8900,
@@ -27,43 +29,7 @@ const defaultMockOrders = [
     status: "Pending",
     timestamp: "Just now",
   },
-  {
-    id: "BP-9079",
-    fullName: "Tolani Alao",
-    phone: "09023456781",
-    address: "UnderG Highway Gate, Green House",
-    branch: "Ogbomoso (UnderG)",
-    itemsText:
-      "1x Fried Rice & Turkey Combo — ₦4,500\n1x Iced Zobo Refresh — ₦800",
-    subtotal: 5300,
-    deliveryFee: 700,
-    totalAmount: 6000,
-    specialInstructions: "",
-    status: "Cooking",
-    timestamp: "12 mins ago",
-  },
-  {
-    id: "BP-9075",
-    fullName: "Femi Adesina",
-    phone: "07011223344",
-    address: "Bodija Estate, No 14 Crescent",
-    branch: "Ibadan (Bodija)",
-    itemsText:
-      "1x Mega Student Box Combo — ₦5,500\n1x Extra Fried Plantain (Dodo) — ₦600",
-    subtotal: 6100,
-    deliveryFee: 700,
-    totalAmount: 6800,
-    specialInstructions: "Leave with security if I don't pick.",
-    status: "Completed",
-    timestamp: "1 hour ago",
-  },
 ];
-
-const STATUS_DOT = {
-  Pending: "bg-amber-500",
-  Cooking: "bg-blue-600",
-  Completed: "bg-emerald-600",
-};
 
 const BRANCHES = [
   "All",
@@ -71,11 +37,15 @@ const BRANCHES = [
   "Ibadan (Bodija)",
   "Osogbo (Olaiya)",
 ];
+const STATUSES = ["All Stages", "Pending", "Cooking", "Completed"];
 
 export default function Admin() {
   const [orders, setOrders] = useState([]);
   const [activeBranchFilter, setActiveBranchFilter] = useState("All");
+  const [activeStatusFilter, setActiveStatusFilter] = useState("All Stages");
+  const [searchQuery, setSearchQuery] = useState("");
 
+  // 📥 AUTOMATED FEED SYNC: Reads real-time data from the customer app's engine
   useEffect(() => {
     const savedOrders = localStorage.getItem("biteplus_orders");
     if (savedOrders) {
@@ -83,9 +53,9 @@ export default function Admin() {
     } else {
       localStorage.setItem(
         "biteplus_orders",
-        JSON.stringify(defaultMockOrders),
+        JSON.stringify(baselineMockOrders),
       );
-      setOrders(defaultMockOrders);
+      setOrders(baselineMockOrders);
     }
   }, []);
 
@@ -98,32 +68,45 @@ export default function Admin() {
   };
 
   const handleResetMetrics = () => {
-    if (window.confirm("Reset dashboard logs back to clean baseline data?")) {
+    if (window.confirm("Reset dashboard logs back to baseline demo records?")) {
       localStorage.setItem(
         "biteplus_orders",
-        JSON.stringify(defaultMockOrders),
+        JSON.stringify(baselineMockOrders),
       );
-      setOrders(defaultMockOrders);
+      setOrders(baselineMockOrders);
+      setSearchQuery("");
+      setActiveBranchFilter("All");
+      setActiveStatusFilter("All Stages");
     }
   };
 
-  const filteredOrders =
-    activeBranchFilter === "All"
-      ? orders
-      : orders.filter((o) => o.branch === activeBranchFilter);
+  // 🎛️ COMPREHENSIVE FILTER ENGINE (Branch + Status Status + Text Query matching)
+  const filteredOrders = orders.filter((order) => {
+    const matchesBranch =
+      activeBranchFilter === "All" || order.branch === activeBranchFilter;
+    const matchesStatus =
+      activeStatusFilter === "All Stages" ||
+      order.status === activeStatusFilter;
 
+    const query = searchQuery.toLowerCase().trim();
+    const matchesSearch =
+      !query ||
+      order.id.toLowerCase().includes(query) ||
+      order.fullName.toLowerCase().includes(query);
+
+    return matchesBranch && matchesStatus && matchesSearch;
+  });
+
+  // Computational Live Calculations based on the dynamic filtered array
   const totalRevenue = filteredOrders
     .filter((o) => o.status === "Completed")
     .reduce((sum, o) => sum + o.totalAmount, 0);
-
   const activeOrdersCount = filteredOrders.filter(
     (o) => o.status === "Pending" || o.status === "Cooking",
   ).length;
-
   const completedCount = filteredOrders.filter(
     (o) => o.status === "Completed",
   ).length;
-
   const avgOrderValue =
     filteredOrders.length > 0
       ? Math.round(
@@ -133,221 +116,232 @@ export default function Admin() {
       : 0;
 
   return (
-    <div className="min-h-screen bg-[#FAFAF7] text-[#18181B] antialiased pt-16 pb-16">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-[#FAFAF7]/95 backdrop-blur border-b border-[#E4E4E2] px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-[#F9F9F9] text-[#1E1E1E] antialiased pt-40 pb-16">
+      {/* 🚀 STICKY ALIGNED NAVIGATION HEADER */}
+      <header className="fixed top-0 w-full z-50 bg-white border-b border-gray-200 shadow-sm px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link
             to="/"
-            className="p-1.5 -ml-1.5 text-[#8A8A85] hover:text-[#18181B] transition-colors"
+            className="p-2 bg-gray-50 hover:bg-gray-100 rounded-xl transition-all text-gray-500 hover:text-[#D8232A]"
           >
-            <ArrowLeft size={18} strokeWidth={2} />
+            <ArrowLeft size={16} />
           </Link>
           <div>
-            <h1 className="text-[15px] font-semibold tracking-tight leading-none">
-              Bite Plus{" "}
-              <span className="text-[#8A8A85] font-normal">
-                — Kitchen Admin
+            <div className="flex items-center gap-2">
+              <h1 className="text-sm font-black tracking-tight text-[#1E1E1E]">
+                BITE PLUS HQ
+              </h1>
+              <span className="bg-gradient-to-r from-[#D8232A] to-[#FF5E14] text-white font-mono text-[9px] font-black px-2 py-0.5 rounded-full tracking-wider">
+                ADMIN CORE
               </span>
-            </h1>
+            </div>
           </div>
         </div>
 
         <button
           onClick={handleResetMetrics}
-          className="flex items-center gap-1.5 text-xs text-[#8A8A85] hover:text-[#18181B] font-medium transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-800 font-bold border border-gray-200 bg-gray-50 px-3 py-1.5 rounded-xl transition-all cursor-pointer"
         >
-          <RotateCcw size={13} strokeWidth={2} />
-          Reset demo data
+          <RotateCcw size={12} />
+          Reset Metrics
         </button>
       </header>
 
-      <div className="max-w-6xl mx-auto px-6 mt-8">
-        {/* Branch tabs */}
-        <div className="flex items-center gap-6 border-b border-[#E4E4E2]">
+      {/* 🔍 LIVE CONTROLLER PIPELINE SUB-BAR */}
+      <div className="fixed top-[69px] left-0 w-full bg-white border-b border-gray-200/80 z-40 px-4 py-3 shadow-sm">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-3 items-center justify-between">
+          {/* Real-time Input Search Area */}
+          <div className="relative w-full md:max-w-md">
+            <Search
+              size={16}
+              className="absolute left-3.5 top-3 text-gray-400"
+            />
+            <input
+              type="text"
+              placeholder="Search by Customer Name or Order ID (e.g. BP-9081)..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#D8232A] focus:bg-white text-xs font-semibold transition-all"
+            />
+          </div>
+
+          {/* Status Lifecycle Navigation Switches */}
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full md:w-auto justify-start md:justify-end">
+            <Filter size={14} className="text-gray-400 hidden lg:inline mr-1" />
+            {STATUSES.map((status) => (
+              <button
+                key={status}
+                onClick={() => setActiveStatusFilter(status)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all cursor-pointer whitespace-nowrap border ${
+                  activeStatusFilter === status
+                    ? "bg-gray-900 border-gray-900 text-white shadow-sm"
+                    : "bg-white border-gray-200 text-gray-500 hover:text-gray-800 hover:bg-gray-50"
+                }`}
+              >
+                {status}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        {/* 💊 THE SWITCH BRANCH SELECTION FILTER */}
+        <div className="flex items-center gap-2.5 overflow-x-auto no-scrollbar pb-2">
           {BRANCHES.map((branch) => (
             <button
               key={branch}
               onClick={() => setActiveBranchFilter(branch)}
-              className={`relative pb-3 text-[13px] font-medium whitespace-nowrap transition-colors cursor-pointer ${
+              className={`px-5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                 activeBranchFilter === branch
-                  ? "text-[#18181B]"
-                  : "text-[#8A8A85] hover:text-[#18181B]"
+                  ? "bg-[#D8232A] text-white shadow-md shadow-red-600/10"
+                  : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
               }`}
             >
-              {branch}
-              {activeBranchFilter === branch && (
-                <span className="absolute left-0 right-0 -bottom-px h-[2px] bg-[#B20017]" />
-              )}
+              {branch === "All" ? "📍 All Hubs" : branch}
             </button>
           ))}
         </div>
 
-        {/* Stat strip */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 border border-[#E4E4E2] rounded-md mt-6 divide-y lg:divide-y-0 lg:divide-x divide-[#E4E4E2]">
-          <div className="px-5 py-4">
-            <p className="text-[11px] text-[#8A8A85] font-medium uppercase tracking-wide">
-              Gross revenue
-            </p>
-            <p className="font-mono tabular-nums text-xl font-medium mt-1">
-              ₦{totalRevenue.toLocaleString()}
-            </p>
-          </div>
-          <div className="px-5 py-4">
-            <p className="text-[11px] text-[#8A8A85] font-medium uppercase tracking-wide">
-              Active in kitchen
-            </p>
-            <p className="font-mono tabular-nums text-xl font-medium mt-1">
-              {activeOrdersCount}
-            </p>
-          </div>
-          <div className="px-5 py-4">
-            <p className="text-[11px] text-[#8A8A85] font-medium uppercase tracking-wide">
-              Delivered
-            </p>
-            <p className="font-mono tabular-nums text-xl font-medium mt-1">
-              {completedCount}
-            </p>
-          </div>
-          <div className="px-5 py-4">
-            <p className="text-[11px] text-[#8A8A85] font-medium uppercase tracking-wide">
-              Avg. ticket
-            </p>
-            <p className="font-mono tabular-nums text-xl font-medium mt-1">
-              ₦{avgOrderValue.toLocaleString()}
-            </p>
-          </div>
-        </div>
-
-        {/* Orders table */}
-        <div className="mt-10">
-          <h2 className="text-sm font-semibold tracking-tight mb-3">Orders</h2>
-
-          {filteredOrders.length === 0 ? (
-            <div className="border border-[#E4E4E2] rounded-md py-16 text-center">
-              <p className="text-sm text-[#8A8A85]">
-                No orders for this branch right now.
-              </p>
+        {/* 🏢 GRID LAYOUT MODULE */}
+        <div className="grid grid-cols-1 gap-6 mt-6 items-start">
+          <div className="space-y-6">
+            {/* BRAND METRICS MODULE CARD BOARD */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 bg-white border border-gray-100 rounded-2xl p-1 divide-y lg:divide-y-0 lg:divide-x divide-gray-100 shadow-sm">
+              <div className="p-5">
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wide">
+                  Gross Revenue
+                </p>
+                <p className="font-sans text-xl font-black mt-1 text-[#1E1E1E]">
+                  ₦{totalRevenue.toLocaleString()}
+                </p>
+              </div>
+              <div className="p-5">
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wide">
+                  In Kitchen
+                </p>
+                <p className="font-sans text-xl font-black mt-1 text-[#FF5E14]">
+                  {activeOrdersCount} Active
+                </p>
+              </div>
+              <div className="p-5">
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wide">
+                  Delivered
+                </p>
+                <p className="font-sans text-xl font-black mt-1 text-emerald-600">
+                  {completedCount} Cooked
+                </p>
+              </div>
+              <div className="p-5">
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wide">
+                  Avg Ticket Size
+                </p>
+                <p className="font-sans text-xl font-black mt-1 text-gray-700">
+                  ₦{avgOrderValue.toLocaleString()}
+                </p>
+              </div>
             </div>
-          ) : (
-            <div className="border border-[#E4E4E2] rounded-md overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse min-w-[900px]">
-                  <thead>
-                    <tr className="border-b border-[#E4E4E2]">
-                      <th className="px-5 py-2.5 text-[11px] font-medium text-[#8A8A85] uppercase tracking-wide">
-                        Order
-                      </th>
-                      <th className="px-5 py-2.5 text-[11px] font-medium text-[#8A8A85] uppercase tracking-wide">
-                        Customer
-                      </th>
-                      <th className="px-5 py-2.5 text-[11px] font-medium text-[#8A8A85] uppercase tracking-wide">
-                        Branch
-                      </th>
-                      <th className="px-5 py-2.5 text-[11px] font-medium text-[#8A8A85] uppercase tracking-wide">
-                        Items
-                      </th>
-                      <th className="px-5 py-2.5 text-[11px] font-medium text-[#8A8A85] uppercase tracking-wide text-right">
-                        Total
-                      </th>
-                      <th className="px-5 py-2.5 text-[11px] font-medium text-[#8A8A85] uppercase tracking-wide">
-                        Status
-                      </th>
-                      <th className="px-5 py-2.5 text-[11px] font-medium text-[#8A8A85] uppercase tracking-wide text-right">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#E4E4E2]">
-                    {filteredOrders.map((order) => (
-                      <tr
-                        key={order.id}
-                        className="align-top hover:bg-black/[0.015] transition-colors"
-                      >
-                        {/* Order ID */}
-                        <td className="px-5 py-4">
-                          <p className="font-mono text-[13px] tracking-tight">
-                            {order.id}
-                          </p>
-                          <p className="text-[11px] text-[#8A8A85] mt-1">
-                            {order.timestamp}
-                          </p>
-                        </td>
 
-                        {/* Customer */}
-                        <td className="px-5 py-4 min-w-[190px]">
-                          <div className="flex items-center gap-1.5 text-[13px] font-medium">
-                            <User
-                              size={12}
-                              className="text-[#8A8A85] shrink-0"
-                            />
+            {/* DYNAMIC PIPELINE CARDS STREAM */}
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <Layers size={14} className="text-gray-400" />
+                  <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                    Operational Pipeline Stream
+                  </h2>
+                </div>
+                <span className="text-[11px] font-bold text-gray-400">
+                  {filteredOrders.length} Calculated Items
+                </span>
+              </div>
+
+              {filteredOrders.length === 0 ? (
+                <div className="border border-gray-200 border-dashed rounded-2xl bg-white py-16 text-center shadow-sm">
+                  <p className="text-sm font-medium text-gray-400">
+                    No matching orders found matching your search parameters.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {filteredOrders.map((order) => (
+                    <div
+                      key={order.id}
+                      className="bg-white border border-gray-100 hover:shadow-md rounded-2xl p-5 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between transition-all group animate-fade-in"
+                    >
+                      <div className="space-y-3 flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 text-xs">
+                          <span className="font-black text-gray-800 bg-gray-50 px-2.5 py-0.5 rounded border border-gray-100">
+                            {order.id}
+                          </span>
+                          <span className="text-gray-400 text-[11px] font-medium">
+                            {order.timestamp}
+                          </span>
+                          <span
+                            className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
+                              order.status === "Pending"
+                                ? "bg-amber-50 text-amber-600 border border-amber-100"
+                                : order.status === "Cooking"
+                                  ? "bg-blue-50 text-blue-600 border border-blue-100"
+                                  : "bg-emerald-50 text-emerald-600 border border-emerald-100"
+                            }`}
+                          >
+                            ● {order.status}
+                          </span>
+                        </div>
+
+                        {/* Customer Meta Row Details */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-600 font-medium">
+                          <div className="flex items-center gap-1.5">
+                            <User size={13} className="text-gray-400" />{" "}
                             {order.fullName}
                           </div>
-                          <div className="flex items-center gap-1.5 text-[12px] text-[#8A8A85] mt-1 font-mono tabular-nums">
-                            <Phone
-                              size={12}
-                              className="text-[#8A8A85] shrink-0"
-                            />
+                          <div className="flex items-center gap-1.5 font-mono">
+                            <Phone size={13} className="text-gray-400" />{" "}
                             {order.phone}
                           </div>
-                          <div className="flex items-center gap-1.5 text-[12px] text-[#8A8A85] mt-1">
-                            <MapPin
-                              size={12}
-                              className="text-[#8A8A85] shrink-0"
-                            />
-                            <span className="truncate max-w-[170px]">
-                              {order.address}
-                            </span>
+                          <div className="flex items-center gap-1.5 sm:col-span-2 truncate">
+                            <MapPin size={13} className="text-gray-400" />{" "}
+                            <span className="font-mono text-[11px] text-gray-400 mr-1">
+                              [{order.branch.split(" ")[0]}]
+                            </span>{" "}
+                            {order.address}
                           </div>
-                        </td>
+                        </div>
 
-                        {/* Branch */}
-                        <td className="px-5 py-4">
-                          <span className="text-[13px] text-[#3F3F3D] whitespace-nowrap">
-                            {order.branch}
-                          </span>
-                        </td>
+                        {/* Order receipts display box lists */}
+                        <div className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-xs text-gray-700 whitespace-pre-line leading-relaxed font-semibold">
+                          {order.itemsText}
+                        </div>
 
-                        {/* Items */}
-                        <td className="px-5 py-4 min-w-[210px]">
-                          <div className="border-l-2 border-[#E4E4E2] pl-3 text-[12.5px] text-[#3F3F3D] whitespace-pre-line leading-relaxed">
-                            {order.itemsText}
+                        {order.specialInstructions && (
+                          <div className="text-[11px] text-red-600 bg-red-50/50 border border-red-100 p-2 rounded-lg font-medium">
+                            📝 Note: {order.specialInstructions}
                           </div>
-                          {order.specialInstructions && (
-                            <p className="mt-2 text-[11.5px] text-[#8A8A85] italic">
-                              Note — {order.specialInstructions}
-                            </p>
-                          )}
-                        </td>
+                        )}
+                      </div>
 
-                        {/* Total */}
-                        <td className="px-5 py-4 text-right">
-                          <p className="font-mono tabular-nums text-[13.5px] font-medium whitespace-nowrap">
+                      {/* Explicit interactive side state toggles */}
+                      <div className="flex flex-row md:flex-col items-end gap-3 w-full md:w-auto pt-3 md:pt-0 border-t md:border-t-0 border-gray-50 justify-between">
+                        <div className="text-right md:mb-1">
+                          <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wider">
+                            Total Revenue
+                          </p>
+                          <p className="text-base font-black text-[#D8232A]">
                             ₦{order.totalAmount.toLocaleString()}
                           </p>
-                        </td>
+                        </div>
 
-                        {/* Status */}
-                        <td className="px-5 py-4">
-                          <span className="flex items-center gap-1.5 text-[12.5px] text-[#3F3F3D] whitespace-nowrap">
-                            <span
-                              className={`w-[6px] h-[6px] rounded-full ${STATUS_DOT[order.status]}`}
-                            />
-                            {order.status}
-                          </span>
-                        </td>
-
-                        {/* Action */}
-                        <td className="px-5 py-4 text-right">
+                        <div className="w-full md:w-auto">
                           {order.status === "Pending" && (
                             <button
                               onClick={() =>
                                 handleUpdateStatus(order.id, "Cooking")
                               }
-                              className="inline-flex items-center gap-1.5 bg-[#18181B] hover:bg-black text-white text-[12px] font-medium px-3 py-1.5 rounded transition-colors cursor-pointer whitespace-nowrap"
+                              className="w-full md:w-auto inline-flex items-center justify-center gap-1.5 bg-gray-900 hover:bg-[#D8232A] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-sm cursor-pointer"
                             >
                               <ChefHat size={13} />
-                              Accept
+                              Cook Ticket
                             </button>
                           )}
                           {order.status === "Cooking" && (
@@ -355,25 +349,25 @@ export default function Admin() {
                               onClick={() =>
                                 handleUpdateStatus(order.id, "Completed")
                               }
-                              className="inline-flex items-center gap-1.5 bg-[#B20017] hover:bg-[#930012] text-white text-[12px] font-medium px-3 py-1.5 rounded transition-colors cursor-pointer whitespace-nowrap"
+                              className="w-full md:w-auto inline-flex items-center justify-center gap-1.5 bg-[#D8232A] hover:bg-[#b01d22] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-sm cursor-pointer"
                             >
                               <Check size={13} />
-                              Deliver
+                              Dispatch
                             </button>
                           )}
                           {order.status === "Completed" && (
-                            <span className="text-[12px] text-[#8A8A85] whitespace-nowrap">
-                              Done
+                            <span className="text-xs font-bold text-gray-400 flex items-center gap-1 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100 shadow-inner">
+                              Delivered ✓
                             </span>
                           )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
