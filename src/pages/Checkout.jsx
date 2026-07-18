@@ -68,7 +68,6 @@ export default function Checkout({
       `👤 *Customer Details:*\n` +
       `• Name: ${formData.fullName}\n` +
       `• Phone: ${formData.phone}\n` +
-      `• Address: ${formData.address}\n\n` +
       `🛒 *Order Summary:*\n` +
       `${itemsText}\n\n` +
       `----------------------------------\n` +
