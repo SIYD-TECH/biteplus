@@ -7,8 +7,8 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-2 flex flex-col items-start">
             <img
               alt="Bite Plus Footer"
-              className="h-12 w-auto mb-6 invert brightness-0"
-              src="https://lh3.googleusercontent.com/aida/AP1WRLuc7ZnL6zv6ZqTw8WNYNlQsj36s6fnmWhLUc4C7wdvjGffkgLZrLKlEu0tUkzKPmw7svad7pumooI7CkJJ5wW--G8vELmqGNnmVZRvBbSr_Yj3ZuU7UjC63g_kNsWgewjk7jsAuXVOObaGhRO2FixSGQmpysGiQIsFb7xBr01bf9KiP4onueBcpZzBCHIzXzPh11M4N6KFBXehu9MSqz8ndiPGJN1q-iJRWZdx7T5x9DIC9aaRKW1QlZRU"
+              className="h-30 w-aut0"
+              src="logo.png"
             />
             <p className="text-gray-400 text-sm max-w-sm mb-6 leading-relaxed">
               Bite Plus is Nigeria's premium quick-service restaurant, dedicated
@@ -49,63 +49,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Quick Links */}
-          <div>
-            <h5 className="text-sm font-bold tracking-wider text-orange-500 uppercase mb-6">
-              Quick Links
-            </h5>
-            <ul className="space-y-3 text-sm text-gray-400">
-              <li>
-                <a className="hover:text-orange-500 transition-colors" href="#">
-                  Track Your Order
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-orange-500 transition-colors" href="#">
-                  Bulk Orders
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-orange-500 transition-colors" href="#">
-                  Our Menu
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-orange-500 transition-colors" href="#">
-                  Career Opportunities
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: Support */}
-          <div>
-            <h5 className="text-sm font-bold tracking-wider text-orange-500 uppercase mb-6">
-              Help & Support
-            </h5>
-            <ul className="space-y-3 text-sm text-gray-400">
-              <li>
-                <a className="hover:text-orange-500 transition-colors" href="#">
-                  Contact Support
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-orange-500 transition-colors" href="#">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-orange-500 transition-colors" href="#">
-                  Terms of Service
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-orange-500 transition-colors" href="#">
-                  Location Finder
-                </a>
-              </li>
-            </ul>
-          </div>
+          
         </div>
 
         {/* Footer Bottom Metadata Bar */}

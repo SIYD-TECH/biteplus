@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export default function CTAbanner({ onNavigate }) {
+export default function CTAbanner() {
   return (
     <section className="py-12 bg-white">
       <div className="max-w-6xl mx-auto px-4">

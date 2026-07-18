@@ -55,7 +55,7 @@ export default function Menu({
       description:
         "Smoky party Jollof rice, served with a large piece of spiced peppered chicken, fried plantain, and coleslaw.",
       image:
-        "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=600",
+        "jollof.avif",
     },
     {
       id: 2,
@@ -65,7 +65,7 @@ export default function Menu({
       description:
         "Wok-fried rice loaded with sweet corn, liver bits, and fresh vegetables, served with peppered fish.",
       image:
-        "https://images.unsplash.com/photo-1626700051175-6518c4793f4f?w=600",
+        "fried rice.jpg",
     },
     {
       id: 3,
@@ -74,7 +74,7 @@ export default function Menu({
       category: "Meals",
       description:
         "Traditional local rice cooked with palm oil, locust beans (iru), dried fish, and shredded ponmo.",
-      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600",
+      image: "native.jpg",
     },
     {
       id: 4,
@@ -84,7 +84,7 @@ export default function Menu({
       description:
         "Fluffy parboiled white rice paired with a rich, deep-fried tomato and bell pepper base stew and beef.",
       image:
-        "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600",
+        "white.jpg",
     },
 
     // 🍗 COMBOS
@@ -96,18 +96,18 @@ export default function Menu({
       description:
         "A premium combination of veggie fried rice paired with a massive piece of seasoned grilled turkey.",
       image:
-        "https://images.unsplash.com/photo-1626700051175-6518c4793f4f?w=600",
+        "fried combo.jpg",
     },
-    {
-      id: 6,
-      name: "Mega Student Box Combo",
-      price: 5500,
-      category: "Meals",
-      description:
-        "Jollof rice, 1 piece of crunchy chicken, 1 beef sausage, plantain, and a free 50cl chilled drink.",
-      image:
-        "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600",
-    },
+    // {
+    //   id: 6,
+    //   name: "Mega Student Box Combo",
+    //   price: 5500,
+    //   category: "Meals",
+    //   description:
+    //     "Jollof rice, 1 piece of crunchy chicken, 1 beef sausage, plantain, and a free 50cl chilled drink.",
+    //   image:
+    //     "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600",
+    // },
 
     // 🍟 SIDES & EXTRAS
     {
@@ -127,7 +127,7 @@ export default function Menu({
       description:
         "Warm toasted flatbread wrapped with double grilled chicken, sausage, and shredded cabbage in cream sauce.",
       image:
-        "https://images.unsplash.com/photo-1626700051175-6518c4793f4f?w=600",
+        "sharwama.jpg",
     },
     {
       id: 9,
@@ -137,7 +137,7 @@ export default function Menu({
       description:
         "A portion of sweet, perfectly riped and golden-fried diced plantains.",
       image:
-        "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?w=600",
+        "plantian.jpg",
     },
     {
       id: 10,
@@ -146,7 +146,7 @@ export default function Menu({
       category: "Sides",
       description:
         "Chewy, well-seasoned chicken gizzards tossed in a fiery hot habanero and onion sauce mixture.",
-      image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600",
+      image: "gizdodo.jpg",
     },
 
     // 🥤 DRINKS SELECTION
