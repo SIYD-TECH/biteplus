@@ -78,11 +78,9 @@ export default function Checkout({
       `----------------------------------\n` +
       `${formData.specialInstructions ? `📝 *Special Instructions:* ${formData.specialInstructions}` : ""}`;
 
-    // =========================================================================
-    // 📦 NEW CODE added here: LOG TO LOCAL STORAGE DATABASE FOR THE ADMIN PANEL
-    // =========================================================================
+    
     const newOrderRecord = {
-      id: `BP-${Math.floor(1000 + Math.random() * 9000)}`, // Unique demo ticket identifier
+      id: `BP-${Math.floor(1000 + Math.random() * 9000)}`, 
       fullName: formData.fullName,
       phone: formData.phone,
       address: formData.address,
@@ -117,10 +115,8 @@ export default function Checkout({
     } catch (error) {
       console.error("Failed to sync order log to LocalStorage:", error);
     }
-    // =========================================================================
-
-    // Target WhatsApp business registry number
-    const whatsappNumber = "2348012345678";
+   
+    const whatsappNumber = "2349019116721";
     const encodedUri = encodeURIComponent(textMessage);
 
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedUri}`, "_blank");
