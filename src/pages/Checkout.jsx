@@ -62,20 +62,20 @@ export default function Checkout({
 
     // Construct clean plain-text receipt template
     const textMessage =
-      `*NEW BITE PLUS ORDER* 🍔\n` +
+      `*NEW BITE PLUS ORDER* \n` +
       `----------------------------------\n` +
-      `📍 *Branch:* ${selectedLocation}\n\n` +
-      `👤 *Customer Details:*\n` +
+      ` *Branch:* ${selectedLocation}\n\n` +
+      ` *Customer Details:*\n` +
       `• Name: ${formData.fullName}\n` +
       `• Phone: ${formData.phone}\n` +
-      `🛒 *Order Summary:*\n` +
+      `*Order Summary:*\n` +
       `${itemsText}\n\n` +
       `----------------------------------\n` +
       `• Subtotal: ₦${subtotal.toLocaleString()}\n` +
       `• Delivery Fee: ₦${deliveryFee.toLocaleString()}\n` +
-      `💰 *Total Bill:* ₦${totalAmount.toLocaleString()}\n` +
+      ` *Total Bill:* ₦${totalAmount.toLocaleString()}\n` +
       `----------------------------------\n` +
-      `${formData.specialInstructions ? `📝 *Special Instructions:* ${formData.specialInstructions}` : ""}`;
+      `${formData.specialInstructions ? `*Special Instructions:* ${formData.specialInstructions}` : ""}`;
 
     
     const newOrderRecord = {
