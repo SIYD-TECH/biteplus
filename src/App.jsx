@@ -10,10 +10,18 @@ import ScrollToTop from "./components/ScrollToTop";
 // import AdminPage from "./pages/AdminPage"; // Ready whenever you drop it in
 
 export default function App() {
-  // 1. LOCATION STATE
-  const [selectedLocation, setSelectedLocation] = useState("");
+  // 1. PERSISTENT LOCATION STATE (Lazy initialized from localStorage)
+  const [selectedLocation, setSelectedLocation] = useState(() => {
+    try {
+      const savedLocation = localStorage.getItem("biteplus_location");
+      return savedLocation ? savedLocation : ""; // Default to empty string if not found
+    } catch (error) {
+      console.error("Error reading localStorage location data:", error);
+      return "";
+    }
+  });
 
-  // 2. PERSISTENT CART STATE (Lazy initialized from localStorage)
+  // 2. PERSISTENT CART STATE
   const [cart, setCart] = useState(() => {
     try {
       const savedCart = localStorage.getItem("biteplus_cart");
@@ -24,10 +32,18 @@ export default function App() {
     }
   });
 
-  // 3. STORAGE SYNCRONIZER EFFECT (Fires on every cart change)
+  // 3. STORAGE SYNCHRONIZER EFFECTS
+  // Sync location changes
+  useEffect(() => {
+    localStorage.setItem("biteplus_location", selectedLocation);
+  }, [selectedLocation]);
+
+  // Sync cart changes
   useEffect(() => {
     localStorage.setItem("biteplus_cart", JSON.stringify(cart));
   }, [cart]);
+
+  // ... (Keep the rest of your handlers and return statement exactly the same)
 
   // 4. GLOBAL CART LOGIC MUTATORS
   const handleAddToCart = (item) => {
@@ -69,7 +85,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F9F9F9] text-[#1E1E1E] font-sans antialiased">
       {/* Pass the dynamic item count directly to your existing Navbar */}
-      <ScrollToTop/>
+      <ScrollToTop />
       <Navbar cartCount={totalCartItems} />
 
       <Routes>
