@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, MapPin, ArrowLeft, Plus, Minus } from "lucide-react";
 
-const branches = ["Ogbomoso", "Ibadan (Bodija)", "Osogbo (Olaiya)"];
+const branches = ["Ogbomoso", "Ibadan", "Osogbo"];
 const categories = ["All", "Meals", "Sides", "Drinks"];
 
 const LOCATION_STORAGE_KEY = "biteplus_selected_location";
@@ -324,6 +324,27 @@ export default function Menu({
           })}
         </div>
       </main>
+
+      {totalCartItems > 0 && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-xl px-4 animate-bounce-once">
+          <Link
+            to="/cart"
+            className="w-full bg-[#D8232A] hover:bg-[#b51c22] text-white font-black py-4 px-6 rounded-2xl shadow-xl flex items-center justify-between transition-all active:scale-[0.98]"
+          >
+            <div className="flex items-center gap-2.5">
+              <span className="bg-white/20 px-2 py-0.5 rounded-lg text-xs font-black">
+                {totalCartItems}
+              </span>
+              <span className="text-sm font-bold tracking-tight">
+                View Order Cart
+              </span>
+            </div>
+            <span className="text-sm font-black">
+              Checkout →
+            </span>
+          </Link>
+        </div>
+      )}
 
       {/* 🚀 PERSISTENT MOBILE FLOATING BOTTOM ACTION LINK */}
       {totalCartItems > 0 && (
