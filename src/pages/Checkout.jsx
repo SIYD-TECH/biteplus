@@ -97,13 +97,10 @@ export default function Checkout({
     };
 
     try {
-      // 1. Read existing admin orders array from disk
       const currentActiveHistory = JSON.parse(
         localStorage.getItem("biteplus_orders") || "[]",
       );
-      // 2. Add the new record right at the very front of the list
       currentActiveHistory.unshift(newOrderRecord);
-      // 3. Save it back to the global browser storage memory registry
       localStorage.setItem(
         "biteplus_orders",
         JSON.stringify(currentActiveHistory),
@@ -117,7 +114,6 @@ export default function Checkout({
 
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedUri}`, "_blank");
 
-    // Clear the cart state after order dispatch action triggers
     onOrderPlaced();
 
     setFormData({
@@ -145,7 +141,6 @@ export default function Checkout({
       </header>
 
       <div className="max-w-6xl mx-auto p-4 md:p-8">
-        {/* 📱 MOBILE VIEW: COLLAPSIBLE ORDER SUMMARY */}
         <div className="md:hidden mb-4">
           <button
             onClick={() => setIsSummaryOpen(!isSummaryOpen)}
@@ -188,9 +183,25 @@ export default function Checkout({
                       </p>
                     </div>
                   </div>
-                  <span className="font-black text-sm text-gray-700">
-                    x{item.quantity}
-                  </span>
+                  <div className="flex items-center gap-3 mt-2">
+                        <div className="flex items-center bg-white border border-gray-100 rounded-lg p-0.5">
+                          <button
+                            onClick={() => onUpdateQty(item.id, -1)}
+                            className="p-1 text-gray-500 hover:text-[#D8232A] cursor-pointer"
+                          >
+                            <Minus size={12} />
+                          </button>
+                          <span className="px-2 text-xs font-black text-gray-800">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() => onUpdateQty(item.id, 1)}
+                            className="p-1 text-gray-500 hover:text-[#FF5E14] cursor-pointer"
+                          >
+                            <Plus size={12} />
+                          </button>
+                        </div>
+                      </div>
                 </div>
               ))}
               <div className="pt-3 border-t border-gray-100 text-xs space-y-1.5 text-gray-500">
