@@ -19,7 +19,6 @@ export default function Checkout({
   selectedLocation = "Ogbomoso",
   onOrderPlaced = () => {},
 }) {
-  // Form input states
   const [formData, setFormData] = useState({
     fullName: "",
     address: "",
@@ -27,10 +26,8 @@ export default function Checkout({
     specialInstructions: "",
   });
 
-  // Mobile order summary accordion state
   const [isSummaryOpen, setIsSummaryOpen] = useState(true);
 
-  // Price calculations
   const subtotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
@@ -46,7 +43,6 @@ export default function Checkout({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Construct WhatsApp payload and redirect
   const handlePlaceOrder = (e) => {
     e.preventDefault();
     if (cart.length === 0) return alert("Your cart is empty!");
@@ -320,10 +316,9 @@ export default function Checkout({
                 </div>
               </div>
 
-              {/* INPUT field 3: WhatsApp Phone */}
               <div>
                 <label className="block text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">
-                  WhatsApp Phone Number
+                  Phone Number
                 </label>
                 <div className="relative">
                   <Phone
@@ -354,8 +349,7 @@ export default function Checkout({
                   Place Order via WhatsApp
                 </button>
                 <p className="text-center text-[10px] text-gray-400 mt-2.5">
-                  You will be redirected to WhatsApp to confirm and transmit
-                  your active recipe feast instantly.
+                  You will be redirected to WhatsApp to confirm and make your payment.
                 </p>
               </div>
             </form>
