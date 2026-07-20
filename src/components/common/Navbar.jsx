@@ -47,6 +47,13 @@ export default function Navbar({ cartCount = 0 }) {
             >
               Our Menu
             </Link>
+
+            <Link
+              className={`text-sm font-bold transition-colors ${isActive("/menu") ? "text-[#FF5E14]" : "text-gray-600 hover:text-[#FF5E14]"}`}
+              to="/admin"
+            >
+              Admin
+            </Link>
           </div>
 
           {/* Dynamic Action Zone Container */}
@@ -71,7 +78,7 @@ export default function Navbar({ cartCount = 0 }) {
             {/* Quick Order Action Button (Desktop Only) */}
             <Link to="/menu" className="hidden sm:block">
               <button className="bg-gradient-to-r from-[#D8232A] to-[#FF5E14] text-white font-extrabold text-xs px-5 py-2.5 rounded-xl shadow-sm hover:opacity-95 active:scale-95 transition-all cursor-pointer">
-                Order Now 
+                Order Now
               </button>
             </Link>
 
@@ -85,7 +92,6 @@ export default function Navbar({ cartCount = 0 }) {
         </nav>
       </header>
 
-      
       <div
         className={`fixed inset-0 z-40 transition-all duration-300 md:hidden ${
           isMobileMenuOpen
@@ -106,7 +112,6 @@ export default function Navbar({ cartCount = 0 }) {
           }`}
         >
           <div className="pt-16 space-y-6">
-
             {/* Navigation Routes List Container */}
             <div className="flex flex-col gap-2">
               <Link
