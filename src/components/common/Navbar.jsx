@@ -71,7 +71,7 @@ export default function Navbar({ cartCount = 0 }) {
             {/* Quick Order Action Button (Desktop Only) */}
             <Link to="/menu" className="hidden sm:block">
               <button className="bg-gradient-to-r from-[#D8232A] to-[#FF5E14] text-white font-extrabold text-xs px-5 py-2.5 rounded-xl shadow-sm hover:opacity-95 active:scale-95 transition-all cursor-pointer">
-                Order Now 
+                Order Now
               </button>
             </Link>
 
@@ -85,7 +85,6 @@ export default function Navbar({ cartCount = 0 }) {
         </nav>
       </header>
 
-      
       <div
         className={`fixed inset-0 z-40 transition-all duration-300 md:hidden ${
           isMobileMenuOpen
@@ -106,7 +105,6 @@ export default function Navbar({ cartCount = 0 }) {
           }`}
         >
           <div className="pt-16 space-y-6">
-
             {/* Navigation Routes List Container */}
             <div className="flex flex-col gap-2">
               <Link
@@ -134,19 +132,6 @@ export default function Navbar({ cartCount = 0 }) {
                 <UtensilsCrossed size={18} />
                 <span>Our Menu</span>
               </Link>
-
-              <Link
-                to="/admin"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-                  isActive("/admin")
-                    ? "bg-red-50 text-[#D8232A]"
-                    : "text-gray-400 hover:bg-gray-50 hover:text-gray-700"
-                }`}
-              >
-                <ShieldCheck size={18} />
-                <span>Admin dashboard</span>
-              </Link>
             </div>
           </div>
 
@@ -158,7 +143,7 @@ export default function Navbar({ cartCount = 0 }) {
               className="w-full block"
             >
               <button className="w-full bg-gradient-to-r from-[#D8232A] to-[#FF5E14] text-white font-black text-center py-3.5 rounded-xl text-xs shadow-md shadow-red-500/10 active:scale-[0.98] transition-all cursor-pointer">
-                Order Feast Now 🍔
+                Order Now
               </button>
             </Link>
           </div>

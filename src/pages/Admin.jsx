@@ -14,21 +14,7 @@ import {
 } from "lucide-react";
 
 const baselineMockOrders = [
-  {
-    id: "BP-9081",
-    fullName: "Adebayo Rasaq",
-    phone: "08145678901",
-    address: "New Hostel, Block C, Room 12",
-    branch: "Ogbomoso",
-    itemsText:
-      "• 2x Bite Plus Jollof Feast (₦7,600)\n• 1x Chilled Coca-Cola (Pet) (₦600)",
-    subtotal: 8200,
-    deliveryFee: 700,
-    totalAmount: 8900,
-    specialInstructions: "Please add extra pepper to the chicken.",
-    status: "Pending",
-    timestamp: "Just now",
-  },
+  
 ];
 
 const BRANCHES = [
