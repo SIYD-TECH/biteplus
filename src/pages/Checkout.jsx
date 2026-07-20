@@ -35,8 +35,10 @@ export default function Checkout({
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
-  const deliveryFee = subtotal > 0 ? 700 : 0;
-  const totalAmount = subtotal + deliveryFee;
+
+  const orderId = `BP-${Math.floor(1000 + Math.random() * 9000)}`
+  
+  const totalAmount = subtotal;
 
   // Handle text input changes
   const handleInputChange = (e) => {
@@ -64,6 +66,7 @@ export default function Checkout({
     const textMessage =
       `*NEW BITE PLUS ORDER* \n` +
       `----------------------------------\n` +
+      `*Order ID* ${orderId}`+
       ` *Branch:* ${selectedLocation}\n\n` +
       ` *Customer Details:*\n` +
       `• Name: ${formData.fullName}\n` +
@@ -72,18 +75,15 @@ export default function Checkout({
       `${itemsText}\n\n` +
       `----------------------------------\n` +
       `• Subtotal: ₦${subtotal.toLocaleString()}\n` +
-      `• Delivery Fee: ₦${deliveryFee.toLocaleString()}\n` +
       ` *Total Bill:* ₦${totalAmount.toLocaleString()}\n` +
-      `----------------------------------\n` +
-      `${formData.specialInstructions ? `*Special Instructions:* ${formData.specialInstructions}` : ""}`;
+      `----------------------------------\n`;
 
     
     const newOrderRecord = {
-      id: `BP-${Math.floor(1000 + Math.random() * 9000)}`, 
+      id: `${orderId}`, 
       fullName: formData.fullName,
       phone: formData.phone,
       branch: selectedLocation || "Ogbomoso",
-      // Formats the items layout to perfectly match your Admin dashboard rows
       itemsText: cart
         .map(
           (item) =>
@@ -91,9 +91,7 @@ export default function Checkout({
         )
         .join("\n"),
       subtotal: subtotal,
-      deliveryFee: deliveryFee,
       totalAmount: totalAmount,
-      specialInstructions: formData.specialInstructions,
       status: "Pending",
       timestamp: "Just now",
     };
@@ -122,12 +120,9 @@ export default function Checkout({
     // Clear the cart state after order dispatch action triggers
     onOrderPlaced();
 
-    // Flush text input fields clean
     setFormData({
       fullName: "",
-      address: "",
       phone: "",
-      specialInstructions: "",
     });
   };
 
@@ -203,18 +198,12 @@ export default function Checkout({
                   <span>Subtotal</span>
                   <span>₦{subtotal.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Delivery Fee</span>
-                  <span>₦{deliveryFee.toLocaleString()}</span>
-                </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* 🏢 DESKTOP LAYOUT AND CORE WEB SHELL */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-          {/* LEFT COLUMN: ITEMIZED BREAKDOWN LIST */}
           <div className="hidden md:block md:col-span-5 bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
             <h3 className="text-xl font-black tracking-tight mb-6 text-gray-800">
               Your Tasty Order
@@ -277,12 +266,6 @@ export default function Checkout({
                       ₦{subtotal.toLocaleString()}
                     </span>
                   </div>
-                  <div className="flex justify-between">
-                    <span>Delivery Fee</span>
-                    <span className="font-semibold text-gray-800">
-                      ₦{deliveryFee.toLocaleString()}
-                    </span>
-                  </div>
                   <div className="flex justify-between pt-3 border-t border-gray-100 text-[#1E1E1E]">
                     <span className="text-base font-black">Total Amount</span>
                     <span className="text-xl font-black text-[#D8232A]">
@@ -294,19 +277,17 @@ export default function Checkout({
             )}
           </div>
 
-          {/* RIGHT COLUMN: REVENUE-DELIVERY FORM FIELDS */}
           <div className="md:col-span-7 bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
             <div className="mb-6">
               <h3 className="text-2xl font-black tracking-tight text-gray-800">
-                Delivery Details
+               Customer Details
               </h3>
               <p className="text-gray-400 text-xs mt-1">
-                Fill in your info to complete the feast cleanly.
+                Fill in your info to complete your order.
               </p>
             </div>
 
             <form onSubmit={handlePlaceOrder} className="space-y-5">
-              {/* INPUT field 1: Full Name */}
               <div>
                 <label className="block text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">
                   Full Name
@@ -350,28 +331,8 @@ export default function Checkout({
                 </div>
               </div>
 
-              {/* INPUT field 4: Special Instructions */}
-              <div>
-                <label className="block text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">
-                  Special Instructions (Optional)
-                </label>
-                <div className="relative">
-                  <FileText
-                    size={16}
-                    className="absolute left-4 top-3.5 text-gray-400"
-                  />
-                  <textarea
-                    name="specialInstructions"
-                    rows="3"
-                    value={formData.specialInstructions}
-                    onChange={handleInputChange}
-                    placeholder="Anything you want us to note?"
-                    className="w-full pl-11 pr-4 py-3 bg-[#F9F9F9] border border-gray-200 rounded-xl focus:outline-none focus:border-[#FF5E14] focus:bg-white text-sm font-medium transition-all resize-none"
-                  />
-                </div>
-              </div>
+              
 
-              {/* WHATSAPP CTA DISPATCH ACTION TRIGGER */}
               <div className="pt-4">
                 <button
                   type="submit"

@@ -47,13 +47,6 @@ export default function Navbar({ cartCount = 0 }) {
             >
               Our Menu
             </Link>
-
-            <Link
-              className={`text-sm font-bold transition-colors ${isActive("/menu") ? "text-[#FF5E14]" : "text-gray-600 hover:text-[#FF5E14]"}`}
-              to="/admin"
-            >
-              Admin
-            </Link>
           </div>
 
           {/* Dynamic Action Zone Container */}
@@ -139,19 +132,6 @@ export default function Navbar({ cartCount = 0 }) {
                 <UtensilsCrossed size={18} />
                 <span>Our Menu</span>
               </Link>
-
-              <Link
-                to="/admin"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-                  isActive("/admin")
-                    ? "bg-red-50 text-[#D8232A]"
-                    : "text-gray-400 hover:bg-gray-50 hover:text-gray-700"
-                }`}
-              >
-                <ShieldCheck size={18} />
-                <span>Admin dashboard</span>
-              </Link>
             </div>
           </div>
 
@@ -163,7 +143,7 @@ export default function Navbar({ cartCount = 0 }) {
               className="w-full block"
             >
               <button className="w-full bg-gradient-to-r from-[#D8232A] to-[#FF5E14] text-white font-black text-center py-3.5 rounded-xl text-xs shadow-md shadow-red-500/10 active:scale-[0.98] transition-all cursor-pointer">
-                Order Feast Now 🍔
+                Order Now
               </button>
             </Link>
           </div>
